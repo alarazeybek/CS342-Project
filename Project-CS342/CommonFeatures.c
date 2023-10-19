@@ -19,6 +19,7 @@ bool IsPrimeNumber(const int num){
     return true;
 }
 
+
 // Parsing the command line arguments and reading the flag values for the rest of the program.
 void commandLineParsing(int argc, char *argv[], int *flag_n, int *flag_m, char *flag_i, char *flag_o){
     int n_val = 5; // Default value of child processes

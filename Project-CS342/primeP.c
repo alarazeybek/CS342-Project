@@ -29,6 +29,8 @@ int main(int argc, char *argv[]){
     DeleteIntermediateFiles();
     return 0;
 }
+// open file 
+
 
 void DeleteIntermediateFiles(FILE* inter_files, const int child_process_num) {
     for (int i = 1; i <= child_process_num; i++) {
