@@ -61,19 +61,21 @@ static void *do_task(void *arg_ptr);
 int main(int argc, char* argv[]) {
     PrimeList = createLinkedList();
     // Command Line Parsing:
-    int *child_thread_num = (int*)malloc(sizeof(int));
-    int *prime_num_in_message = (int*)malloc(sizeof(int));
+    char n_val[100] ;
+    char m_val[100];
     char input_file_name[100];
     char output_file_name[100];
-    commandLineParsing(argc,argv,*child_thread_num,*prime_num_in_message,input_file_name,
+    commandLineParsing(argc,argv,n_val,m_val,input_file_name,
                        output_file_name);
-
+    int child_thread_num = atoi(n_val);
+    // int prime_num_in_message = atoi(m_val); BU PART B Kisminda kullanilmiyor.
+    
     // Split the input file into N intermediate input files.
-    char* inter_files[*child_thread_num];
-    openIntermediateFiles(input_file_name, inter_files, *child_thread_num);
+    char* inter_files[child_thread_num];
+    openIntermediateFiles(input_file_name, inter_files, child_thread_num);
     // Create an array of thread handles and thread data.
-    pthread_t tids[*child_thread_num];
-    struct ThreadData t_args[*child_thread_num];
+    pthread_t tids[child_thread_num];
+    struct ThreadData t_args[child_thread_num];
     char *retmsg;
 /*  Chat bunlari ekleyerek olusturuyor:
     // Create a mutex for synchronizing thread access to shared data.
@@ -81,7 +83,7 @@ int main(int argc, char* argv[]) {
     pthread_mutex_init(&mutex, NULL);
 */
     // Create and start worker threads.
-    for (int i = 0; i < *child_thread_num; i++) {
+    for (int i = 0; i < child_thread_num; i++) {
         t_args[i].interFileName = inter_files[i];/* assign intermediate file name */;
         t_args[i].threadNumber = i;
         //t_args[i].primeList = /* create a thread-specific linked list */;
@@ -94,7 +96,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Wait for all threads to finish.
-    for (int i = 0; i < *child_thread_num; i++) {
+    for (int i = 0; i < child_thread_num; i++) {
         int ret = pthread_join(tids[i], (void **)&retmsg);
         if (ret != 0) {
             printf("thread join failed \n");
@@ -112,7 +114,7 @@ int main(int argc, char* argv[]) {
     free(PrimeList);
     fclose(f_write);
     // Remove intermediate files.
-    DeleteIntermediateFiles(*child_thread_num);
+    DeleteIntermediateFiles(child_thread_num);
 
     //pthread_mutex_destroy(&mutex);
 
