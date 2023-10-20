@@ -107,9 +107,9 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
             char* line = NULL; // Assuming a maximum of 100 characters per line
             ssize_t read;
             size_t len = 0;
-            printf ("line oku\n");
 
             //while (fgets(line, sizeof(line), inter_file) != NULL) {
+
             while ((read = getline(&line, &len, inter_file)) != -1) {
                 printf ("line okunuyorrr\n");
 

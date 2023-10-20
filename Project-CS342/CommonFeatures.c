@@ -96,7 +96,7 @@ void openIntermediateFiles(char *inputFileName, char* inter_files[], const int c
     // interleri olustur: Isimler 1 den baslar ve 1,2,3,4... diye gider
     for (int intermediate_file_no = 0; intermediate_file_no < child_process_num; intermediate_file_no++){
         char inter_file_name[25]; // TODO Check et
-        snprintf(inter_file_name, sizeof(inter_file_name), "%d", intermediate_file_no);
+        snprintf(inter_file_name, sizeof(inter_file_name), "%d.txt", intermediate_file_no);
         FILE *f_write = fopen(inter_file_name, "w+");
         if (f_write == NULL) {
             perror("File create/open failed");
