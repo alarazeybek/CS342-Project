@@ -15,6 +15,7 @@
 // Message includes
 #include <mqueue.h>
 #include <errno.h>
+#include <sys/wait.h>
 struct item {
     int prime_num;
 };
@@ -52,14 +53,14 @@ int main(int argc, char *argv[]){
     char* inter_files[child_process_num];
 
     openIntermediateFiles(input_file_name, inter_files, child_process_num);
-    ProcessHandling(child_process_num,prime_num_in_message, inter_files, *output_file_name);
+    ProcessHandling(child_process_num,prime_num_in_message, inter_files, output_file_name);
     DeleteIntermediateFiles(child_process_num);
     free(bufferp);
     mq_close(mq);
     return 0;
 }
 
-void ProcessHandling(const int p_child_num, const int message_size, char* intermediate_files[], const char* output_file_name)
+void ProcessHandling(const int p_child_num, const int message_size, char* inter_files[], const char* output_file_name)
 {
     FILE* f_write = fopen(output_file_name, "w+");
     pid_t  n;

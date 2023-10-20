@@ -7,6 +7,7 @@
 #include <string.h>
 #include <pthread.h>
 #include <stdbool.h>
+#include <sys/wait.h>
 // Define the structure for a single node in the linked list.
 struct Node {
     int prime_num;
@@ -69,7 +70,7 @@ int main(int argc, char* argv[]) {
                        output_file_name);
     int child_thread_num = atoi(n_val);
     // int prime_num_in_message = atoi(m_val); BU PART B Kisminda kullanilmiyor.
-    
+
     // Split the input file into N intermediate input files.
     char* inter_files[child_thread_num];
     openIntermediateFiles(input_file_name, inter_files, child_thread_num);
