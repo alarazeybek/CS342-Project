@@ -29,14 +29,16 @@ void ProcessHandling(const int p_child_num, const int message_size, char* interm
 
 int main(int argc, char *argv[]){
     // Command Line Parsing:
-    int *child_process_num = (int*)malloc(sizeof(int);
-    int *prime_num_in_message = (int*)malloc(sizeof(int);
+    char n_val[100] ;
+    char m_val[100];
     char input_file_name[100];
     char output_file_name[100];
-    commandLineParsing(argc,argv,*child_process_num,*prime_num_in_message,input_file_name,
+    commandLineParsing(argc,argv,n_val,m_val,input_file_name,
                        output_file_name);
+    int child_process_num = // string to int n_val
+    int prime_num_in_message = // string to int m_val
     // Opening a Message Queue:
-    attr.mq_maxmsg = *prime_num_in_message;
+    attr.mq_maxmsg = prime_num_in_message;
     attr.mq_curmsgs = 0;
     bufferlen = attr.mq_maxmsg + 10;
     mq = mq_open("/messagequeue", O_RDWR | O_CREAT, /*QUEUE_PERMISSIONS*/ 0660, &attr);
@@ -47,15 +49,13 @@ int main(int argc, char *argv[]){
     mq_getattr(mq, &attr);
     bufferp = (char *) malloc(bufferlen);
     // Parsing the input file into N intermediate input files.
-    char* inter_files[*child_process_num];
+    char* inter_files[child_process_num];
 
-    openIntermediateFiles(input_file_name, inter_files, *child_process_num);
-    ProcessHandling(*child_process_num,*prime_num_in_message, inter_files, *output_file_name);
-    DeleteIntermediateFiles(*child_process_num);
+    openIntermediateFiles(input_file_name, inter_files, child_process_num);
+    ProcessHandling(child_process_num,prime_num_in_message, inter_files, *output_file_name);
+    DeleteIntermediateFiles(child_process_num);
     free(bufferp);
     mq_close(mq);
-    free(child_process_num); // Free allocated memory
-    free(prime_num_in_message); // Free allocated memory
     return 0;
 }
 
