@@ -88,8 +88,7 @@ int main(int argc, char *argv[]){
     return 0;
 }
 
-void ProcessHandling(const int p_child_num, const int message_size, char* inter_files[], const char* output_file_name)
-{
+void ProcessHandling(const int p_child_num, const int message_size, char* inter_files[], const char* output_file_name){
     FILE* f_write = fopen(output_file_name, "w+");
     if (f_write == NULL) {
         perror("Error opening file");
@@ -120,18 +119,6 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
                 printf("errno: %d\n", errno);
                 return ;
             }
-            // Reading the intermediate file:
-           // char* line = (char*)malloc(100); // Assuming a maximum of 100 characters per line
-            //if (line == NULL) {
-             //   perror("Error allocating memory for line");
-              //  exit(1);
-           // }
-           // ssize_t read;
-            //size_t len = 0;
-            //int number = 0;
-
-            //while (fscanf(inter_file, "%d", &number) == 1) {
-               // while ((read = getline(&line, &len, inter_file)) != -1) {
 
             printf ("\nNeredeyim");
             char line[100]; // Assuming a maximum of 100 characters per line
@@ -151,15 +138,18 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
                     }
                 }
             }
+            printf ("\n2");
             if (ferror(inter_file)) {
                 perror("Error reading from the intermediate file");
             }
+            printf ("\n3");
             fclose(inter_file);
 
             printf ("end process\n");
             exit(0);  // child terminates
         }
         else {
+            printf ("\nELSEE");
             // this is parent code
             // mesage queue size çek et eğet m değerinden büyük ise ana output file ına yazdır ve mesajı queue sunu boşalt.
             if (attr.mq_curmsgs >= message_size) {
