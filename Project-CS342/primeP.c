@@ -89,7 +89,7 @@ int main(int argc, char *argv[]){
     return 0;
 }
 
-void ProcessHandling(const int p_child_num, const int message_size, char* inter_files[], const char* output_file_name)
+int ProcessHandling(const int p_child_num, const int message_size, char* inter_files[], const char* output_file_name)
 {
     FILE* f_write = fopen(output_file_name, "w+");
     if (f_write == NULL) {
@@ -200,4 +200,5 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
     }
     // Close output file.
     fclose(f_write);
+    return 0;
 }
