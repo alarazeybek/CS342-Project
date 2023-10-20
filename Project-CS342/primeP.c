@@ -36,8 +36,8 @@ int main(int argc, char *argv[]){
     char output_file_name[100];
     commandLineParsing(argc,argv,n_val,m_val,input_file_name,
                        output_file_name);
-    int child_process_num = atoi(n_val);
-    int prime_num_in_message = atoi(m_val);
+    int child_process_num = atoi(*n_val);
+    int prime_num_in_message = atoi(*m_val);
     printf ("\nN_vall: %d",child_process_num);
     printf ("\nM_vall: %d",prime_num_in_message);
     // Opening a Message Queue:
