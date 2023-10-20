@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
     printf("F2 LINE \n");
     commandLineParsing(argc,argv,n_val,m_val,input_file_name,
                        output_file_name);
-    int child_thread_num = atoi(n_val);
+    int child_thread_num = atoi(*n_val);
     printf("F3 LINE \n");
     // int prime_num_in_message = atoi(m_val); BU PART B Kisminda kullanilmiyor.
 
