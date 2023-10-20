@@ -32,16 +32,14 @@ int main(int argc, char *argv[]){
     // Command Line Parsing:
     char* n_val[100] ;
     char* m_val[100];
-    char* in[100];
-    char* out[100];
-    commandLineParsing(argc,argv,n_val,m_val,in,out);
+    char* input_file_name[100];
+    char* output_file_name[100];
+    commandLineParsing(argc,argv,n_val,m_val,input_file_name,
+                       output_file_name);
     int child_process_num = atoi(*n_val);
     int prime_num_in_message = atoi(*m_val);
     printf ("\nN_vall: %d",child_process_num);
     printf ("\nM_vall: %d",prime_num_in_message);
-    //--------------
-    char input_file_name[100] = *in;
-    char output_file_name[100] = *out;
     // Opening a Message Queue:
     attr.mq_maxmsg = prime_num_in_message;
     attr.mq_curmsgs = 0;
@@ -56,8 +54,8 @@ int main(int argc, char *argv[]){
     // Parsing the input file into N intermediate input files.
     char* inter_files[child_process_num];
 
-    openIntermediateFiles(input_file_name, inter_files, child_process_num);
-    ProcessHandling(child_process_num,prime_num_in_message, inter_files, output_file_name);
+    openIntermediateFiles(*input_file_name, inter_files, child_process_num);
+    ProcessHandling(child_process_num,prime_num_in_message, inter_files, *output_file_name);
     DeleteIntermediateFiles(child_process_num);
     free(bufferp);
     mq_close(mq);
