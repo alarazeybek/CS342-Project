@@ -109,7 +109,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
         if (n == 0) {
             printf ("p starts\n");
 
-            char* inter_file_name = inter_files[i];
+            char* inter_file_name = inter_files[a1];
             FILE *inter_file = fopen(inter_file_name, "r");
             if (inter_file == NULL) {
                 perror("Error opening intermediate file");
