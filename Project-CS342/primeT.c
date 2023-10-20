@@ -83,6 +83,7 @@ int main(int argc, char* argv[]) {
             exit(1);
         }
     }
+    printf("00000000000000000000 LINE \n");
     openIntermediateFiles(*input_file_name, inter_files, child_thread_num);
     printf("F4 LINE \n");
     // Create an array of thread handles and thread data.

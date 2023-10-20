@@ -58,11 +58,8 @@ int main(int argc, char *argv[]){
         exit(1);
     }
 
-    printf ("\nF1");
     mq_getattr(mq, &attr);
-    printf ("\nF2");
     bufferp = (char *) malloc(bufferlen);
-    printf ("\nF2.2222");
 
 
     // Parsing the input file into N intermediate input files.
