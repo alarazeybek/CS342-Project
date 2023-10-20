@@ -10,5 +10,9 @@
 bool IsPrimeNumber(const int num);
 // Parsing the command line arguments and reading the flag values for the rest of the program.
 void commandLineParsing(int argc, char *argv[], int *flag_n, int *flag_m, char *flag_i, char *flag_o);
+// Parsing the inout file into  N inter files.
+void openIntermediateFiles(char *inputFileName, char* inter_files[], const int child_process_num);
+// Deleting the inter files.
+void DeleteIntermediateFiles(FILE* inter_files, const int child_process_num);
 
 #endif //PROJECT_CS342_COMMONFEATURES_H

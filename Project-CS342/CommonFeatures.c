@@ -11,6 +11,7 @@
 
 bool IsPrimeNumber(const int num){
     if (num < 2) return false;
+
     for (int i = 2; i <= sqrt(num); i++) {
         if (num % i == 0){
             return false;
@@ -63,4 +64,53 @@ void commandLineParsing(int argc, char *argv[], int *flag_n, int *flag_m, char *
     *flag_m = m_val;
     flag_i = in_filename;
     flag_o = out_filename;
+}
+
+
+void DeleteIntermediateFiles(FILE* inter_files, const int child_process_num) {
+    for (int i = 1; i <= child_process_num; i++) {
+        char filename[25];
+        snprintf(filename, sizeof(filename), "%d.txt", i);
+        // Use remove() to delete the file
+        if (remove(filename) != 0) {
+            perror("Error deleting file");
+        }
+    }
+}
+void openIntermediateFiles(char *inputFileName, char* inter_files[], const int child_process_num){
+    FILE *f_input;
+    int main_input_file_index = 0;
+    f_input = fopen(inputFileName, "r");
+    if (f_input == NULL) {
+        exit(EXIT_FAILURE);
+    }
+    // interleri olustur: Isimler 1 den baslar ve 1,2,3,4... diye gider
+    for (int intermediate_file_no = 1; intermediate_file_no <= child_process_num; intermediate_file_no++){
+        char inter_file_name[25]; // TODO Check et
+        snprintf(inter_file_name, sizeof(inter_file_name), "%d", intermediate_file_no);
+        FILE *f_write = fopen(inter_file_name, "w+");
+        if (f_write == NULL) {
+            perror("File create/open failed");
+            continue;
+        }
+        inter_files[intermediate_file_no] = inter_file_name;
+        fclose(f_write);
+    }
+    // ana input file ını oku ve interleri initialize et:
+    char line[100]; // Assuming a maximum of 100 characters per line
+    int line_index = 1;
+    while (fgets(line, sizeof(line), f_input) != NULL) {
+        // Convert the line to an integer
+        int number = atoi(line);
+        // If the line is an integer:
+        if (number != 0 || line[0] == '0') { // TODO o inputunu dene
+            int inter_file_array_index = (line_index -1) % child_process_num + 1;
+            char* inter_file_name = inter_files[inter_file_array_index];
+            FILE* inter_file = fopen(inter_file_name, "r");
+            fprintf(inter_file, "%d\n", number);
+            fclose(inter_file);
+        }
+        line_index++;
+    }
+    fclose(f_input); // Close the input file when done
 }
