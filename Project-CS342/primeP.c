@@ -90,7 +90,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
     FILE* f_write = fopen(output_file_name, "w+");
     pid_t  n;
     printf ("\nPROCESSHANDLING");
-    for (int i = 0; i < p_child_num; ++i) {
+    for (int i = 1; i <= p_child_num; ++i) {
         printf ("nnnnn starts\n");
         n = fork();
         if (n < 0) {
