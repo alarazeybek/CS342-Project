@@ -121,19 +121,21 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
                 return ;
             }
             // Reading the intermediate file:
-            char* line = (char*)malloc(100); // Assuming a maximum of 100 characters per line
-            if (line == NULL) {
-                perror("Error allocating memory for line");
-                exit(1);
-            }
-            ssize_t read;
-            size_t len = 0;
-            int number = 0;
+           // char* line = (char*)malloc(100); // Assuming a maximum of 100 characters per line
+            //if (line == NULL) {
+             //   perror("Error allocating memory for line");
+              //  exit(1);
+           // }
+           // ssize_t read;
+            //size_t len = 0;
+            //int number = 0;
 
-            while (fscanf(inter_file, "%d", &number) == 1) {
+            //while (fscanf(inter_file, "%d", &number) == 1) {
+               // while ((read = getline(&line, &len, inter_file)) != -1) {
 
-                // while ((read = getline(&line, &len, inter_file)) != -1) {
-
+            char line[100]; // Assuming a maximum of 100 characters per line
+            int line_index = 1;
+            while (fgets(line, sizeof(line), inter_file) != NULL) {
                 /* while ((c = fgetc(file)) != EOF){
                      printf ("line okunuyorrr\n");
                      //char *line_copy = strdup(line);
