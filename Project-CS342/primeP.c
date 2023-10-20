@@ -17,6 +17,7 @@
 #include <errno.h>
 #include <sys/wait.h>
 #include <errno.h>
+#include <time.h>
 
 struct item {
     int prime_num;
@@ -26,6 +27,7 @@ struct item *itemp;
 char *bufferp; // send buffer
 int   bufferlen; // buffer size  (in bytes)
 mqd_t mq; // message_queue
+
 struct mq_attr attr; // message_attributes
 
 void ProcessHandling(const int p_child_num, const int message_size, char* intermediate_files[], const char* output_file_name );
@@ -96,8 +98,6 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
         return ;
     }
     pid_t  n;
-    printf ("\nPROCESSHANDLING");
-    printf("\nPROCESS NUM: %d",p_child_num);
     for (int a1 = 0; a1 < p_child_num; a1++) {
         printf ("nnnnn starts\n");
         n = fork();
@@ -107,7 +107,6 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
         }
         // If n is 0, it means that we are running the child process.
         if (n == 0) {
-            printf ("p starts\n");
 
             char* inter_file_name = inter_files[a1];
             FILE *inter_file = fopen(inter_file_name, "r");
@@ -121,7 +120,6 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
                 return ;
             }
 
-            printf ("\nNeredeyim");
             char line[100]; // Assuming a maximum of 100 characters per line
             while (fgets(line, sizeof(line), inter_file) != NULL) {
                 // Convert the line to an integer
@@ -145,8 +143,6 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
             }
             printf ("\n3");
             fclose(inter_file);
-
-            printf ("end process\n");
             exit(0);  // child terminates
         }
         else {
@@ -154,7 +150,9 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
             // this is parent code
             // mesage queue size çek et eğet m değerinden büyük ise ana output file ına yazdır ve mesajı queue sunu boşalt.
             if (attr.mq_curmsgs >= message_size) {
+                printf ("\nELSEE ICI");
                 while (attr.mq_curmsgs > 0) {
+                    printf ("\nYAZİYORUMMM");
                     int error = mq_receive(mq, bufferp, bufferlen, NULL);
                     if (error == -1) {
                         perror("mq_receive failed\n");
