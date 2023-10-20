@@ -34,7 +34,7 @@ int main(int argc, char *argv[]){
     char m_val[100];
     char input_file_name[100];
     char output_file_name[100];
-    commandLineParsing(argc,argv,n_val,m_val,input_file_name,
+    commandLineParsing(argc,argv,&n_val,&m_val,input_file_name,
                        output_file_name);
     int child_process_num = atoi(n_val);
     int prime_num_in_message = atoi(m_val);
