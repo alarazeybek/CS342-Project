@@ -77,7 +77,7 @@ bool IsPrimeNumber(const int num){
 
 
 void DeleteIntermediateFiles(const int child_process_num) {
-    for (int i = 1; i <= child_process_num; i++) {
+    for (int i = 0; i < child_process_num; i++) {
         char filename[25];
         snprintf(filename, sizeof(filename), "%d.txt", i);
         // Use remove() to delete the file
@@ -108,6 +108,15 @@ void openIntermediateFiles(char *inputFileName, char* inter_files[], const int c
     // ana input file ını oku ve interleri initialize et:
     char line[100]; // Assuming a maximum of 100 characters per line
     int line_index = 1;
+    int number = 0 ;
+    while(fscanf(infile, "%d", &number) == 1){
+        int inter_file_array_index = (line_index -1) % child_process_num + 1;
+        char* inter_file_name = inter_files[inter_file_array_index];
+        FILE* inter_file = fopen(inter_file_name, "w");
+        fprintf(inter_file, "%d\n", number);
+        fclose(inter_file);
+        line_index++;
+    }/*
     while (fgets(line, sizeof(line), f_input) != NULL) {
         // Convert the line to an integer
         int number = atoi(line);
@@ -120,6 +129,6 @@ void openIntermediateFiles(char *inputFileName, char* inter_files[], const int c
             fclose(inter_file);
         }
         line_index++;
-    }
+    }*/
     fclose(f_input); // Close the input file when done
 }
