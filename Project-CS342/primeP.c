@@ -99,8 +99,8 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
     }
     pid_t  n;
     int MCOUNT = 0;
+    printf("Message Size: %d", message_size);
     for (int a1 = 0; a1 < p_child_num; a1++) {
-        printf ("nnnnn starts\n");
         n = fork();
         if (n < 0) {
             printf ("fork() failed\n");
@@ -108,7 +108,6 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
         }
         // If n is 0, it means that we are running the child process.
         if (n == 0) {
-
             char* inter_file_name = inter_files[a1];
             FILE *inter_file = fopen(inter_file_name, "r");
             if (inter_file == NULL) {
@@ -125,7 +124,6 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
             while (fgets(line, sizeof(line), inter_file) != NULL) {
                 // Convert the line to an integer
                 int number = atoi(line);
-                printf ("\nIceride Miyim");
                 if (IsPrimeNumber(number)){
                     // Create message
                     itemp = (struct item *) bufferp;
@@ -139,11 +137,9 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
                     MCOUNT++;
                 }
             }
-            printf ("\n2");
             if (ferror(inter_file)) {
                 perror("Error reading from the intermediate file");
             }
-            printf ("\n3");
             fclose(inter_file);
             exit(0);  // child terminates
         }
@@ -180,6 +176,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
         }
         itemp = (struct item *) bufferp;
         fprintf(f_write, "%d\n", itemp->prime_num);
+        MCOUNT--;
     }
     // Close output file.
     fclose(f_write);
