@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <math.h>
+#include <string.h>
 
 bool IsPrimeNumber(const int num){
     if (num < 2) return false;
@@ -21,7 +22,7 @@ bool IsPrimeNumber(const int num){
 }
 
     // Parsing the command line arguments and reading the flag values for the rest of the program.
-    void commandLineParsing(int argc, char *argv[],  char *flag_n,  char *flag_m, char *flag_i, char *flag_o){
+    void commandLineParsing(int argc, char *argv[],  string *flag_n,  string *flag_m, char *flag_i, char *flag_o){
         int n_val = 5; // Default value of child processes
         int m_val = 3; // Default value of primes per message
         char *in_filename = NULL;
@@ -70,9 +71,9 @@ bool IsPrimeNumber(const int num){
         }
         char string_flag_val[100];
         snprintf(string_flag_val, sizeof(string_flag_val), "%d", n_val);
-        flag_n = string_flag_val;
+        *flag_n = string_flag_val;
         snprintf(string_flag_val, sizeof(string_flag_val), "%d", m_val);
-        flag_m = string_flag_val;
+        *flag_m = string_flag_val;
         flag_i = in_filename;
         flag_o = out_filename;
     }

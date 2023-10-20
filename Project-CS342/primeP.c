@@ -30,11 +30,13 @@ void ProcessHandling(const int p_child_num, const int message_size, char* interm
 
 int main(int argc, char *argv[]){
     // Command Line Parsing:
-    char n_val[100] ;
-    char m_val[100];
+    //char n_val[100] ;
+    string* n_val;
+   // char m_val[100];
+    string* m_val;
     char input_file_name[100];
     char output_file_name[100];
-    commandLineParsing(argc,argv,&n_val,&m_val,input_file_name,
+    commandLineParsing(argc,argv,n_val,m_val,input_file_name,
                        output_file_name);
     int child_process_num = atoi(n_val);
     int prime_num_in_message = atoi(m_val);
