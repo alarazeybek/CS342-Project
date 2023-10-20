@@ -49,8 +49,6 @@ int main(int argc, char *argv[]){
     // Parsing the input file into N intermediate input files.
     char* inter_files[*child_process_num];
 
-
-    int inter_files_index;
     openIntermediateFiles(input_file_name, inter_files, *child_process_num);
     ProcessHandling(*child_process_num,*prime_num_in_message, inter_files, *output_file_name);
     DeleteIntermediateFiles(*child_process_num);
