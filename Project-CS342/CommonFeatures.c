@@ -86,7 +86,7 @@ void DeleteIntermediateFiles(const int child_process_num) {
         }
     }
 }
-void openIntermediateFiles(char inputFileName, char inter_files[], const int child_process_num){
+void openIntermediateFiles(char *inputFileName, char inter_files[], const int child_process_num){
     FILE *f_input;
     int main_input_file_index = 0;
     f_input = fopen(inputFileName, "r");
