@@ -16,6 +16,8 @@
 #include <mqueue.h>
 #include <errno.h>
 #include <sys/wait.h>
+#include <errno.h>
+
 struct item {
     int prime_num;
 };
@@ -88,6 +90,11 @@ int main(int argc, char *argv[]){
 void ProcessHandling(const int p_child_num, const int message_size, char* inter_files[], const char* output_file_name)
 {
     FILE* f_write = fopen(output_file_name, "w+");
+    if (f_write == NULL) {
+        perror("Error opening file");
+        printf("errno: %d\n", errno);
+        return -1;
+    }
     pid_t  n;
     printf ("\nPROCESSHANDLING");
     for (int i = 0; i < p_child_num; ++i) {
@@ -106,6 +113,11 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
             if (inter_file == NULL) {
                 perror("Error opening intermediate file");
                 exit(1);
+            }
+            if (inter_file == NULL) {
+                perror("Error opening file");
+                printf("errno: %d\n", errno);
+                return -1;
             }
             // Reading the intermediate file:
             char* line = (char*)malloc(100); // Assuming a maximum of 100 characters per line
