@@ -57,7 +57,7 @@ struct ThreadData {
 };
 // LinkedList
 
-Stuct LinkedList* PrimeList;
+stuct LinkedList* PrimeList;
 static void *do_task(void *arg_ptr);
 int main(int argc, char* argv[]) {
     PrimeList = createLinkedList();
