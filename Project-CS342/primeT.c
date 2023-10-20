@@ -57,7 +57,7 @@ struct ThreadData {
 };
 // LinkedList
 
-LinkedList* PrimeList;
+Stuct LinkedList* PrimeList;
 static void *do_task(void *arg_ptr);
 int main(int argc, char* argv[]) {
     PrimeList = createLinkedList();
@@ -123,12 +123,10 @@ int main(int argc, char* argv[]) {
 }
 
 // this is the function to be executed by all the threads concurrently
+
 static void *do_task(void *arg_ptr)
 {
     char *retreason;
-
-    sprintf(filename, "output_of_thread%d.txt",
-            ((struct arg *) arg_ptr)->t_index);
 
     FILE *fp = fopen(((struct ThreadData *) arg_ptr)->interFileName, "w");
     if (fp == NULL) {
