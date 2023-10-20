@@ -32,11 +32,8 @@ bool IsPrimeNumber(const int num){
         // arg_flag is the flag in the command line and optarg is the flag value in string format.
         int arg_flag;
         while ((arg_flag = getopt(argc, argv, "n:m:i:o:")) != -1) {
-            printf("Char:%c\n",arg_flag);
             switch (arg_flag) {
-                printf("Optarg:%s\n",optarg);
                 case 'n':
-                    printf("Optarg Inside:%s\n",optarg);
                     n_val = atoi(optarg);
                     printf("N_val Inside:%d\n",n_val);
                     if (n_val < 1 || n_val > 20) {
@@ -47,7 +44,6 @@ bool IsPrimeNumber(const int num){
                     }
                     break;
                 case 'm':
-                    printf("Optarg Inside:%s\n",optarg);
                     m_val = atoi(optarg);
                     printf("M_val Inside:%d\n",m_val);
                     if (m_val < 1 || m_val > 20) {

@@ -44,19 +44,26 @@ int main(int argc, char *argv[]){
     attr.mq_maxmsg = prime_num_in_message;
     attr.mq_curmsgs = 0;
     bufferlen = attr.mq_maxmsg + 10;
-    mq = mq_open("/messagequeue", O_RDWR | O_CREAT, /*QUEUE_PERMISSIONS*/ 0660, &attr);
+    mq = mq_open("/messagequeue", O_RDWR | O_CREAT, /*QUEUE_PERMISSIONS*/ 0666, NULL);
     if (mq == -1) {
         perror("FLAG:can not open msg queue\n");
         exit(1);
     }
+    printf ("\nF1");
     mq_getattr(mq, &attr);
+    printf ("\nF2");
     bufferp = (char *) malloc(bufferlen);
+    printf ("\nF3");
     // Parsing the input file into N intermediate input files.
     char* inter_files[child_process_num];
+    printf ("\nF3");
 
     openIntermediateFiles(*input_file_name, inter_files, child_process_num);
+    printf ("\nF4");
     ProcessHandling(child_process_num,prime_num_in_message, inter_files, *output_file_name);
+    printf ("\nF5");
     DeleteIntermediateFiles(child_process_num);
+    printf ("\nF6");
     free(bufferp);
     mq_close(mq);
     return 0;
