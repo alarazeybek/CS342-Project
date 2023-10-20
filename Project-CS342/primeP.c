@@ -103,8 +103,16 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
 
             char* inter_file_name = inter_files[i];
             FILE *inter_file = fopen(inter_file_name, "r");
+            if (inter_file == NULL) {
+                perror("Error opening intermediate file");
+                exit(1);
+            }
             // Reading the intermediate file:
-            char* line = NULL; // Assuming a maximum of 100 characters per line
+            char* line = (char*)malloc(100); // Assuming a maximum of 100 characters per line
+            if (line == NULL) {
+                perror("Error allocating memory for line");
+                exit(1);
+            }
             ssize_t read;
             size_t len = 0;
 
@@ -137,6 +145,11 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
                     }
                 }
             }
+            if (ferror(inter_file)) {
+                perror("Error reading from the intermediate file");
+            }
+            fclose(inter_file);
+
             printf ("end process\n");
             exit(0);  // child terminates
         }
