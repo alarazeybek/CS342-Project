@@ -52,16 +52,16 @@ void DeleteNode(struct LinkedList* list) {
 struct ThreadData {
     char* interFileName;
     int threadNumber;
-    //struct LinkedList* link;
+    struct LinkedList* own_list;
     //pthread_mutex_t* mutex;
 };
 // LinkedList
 
-struct LinkedList* PrimeList;
+//struct LinkedList* PrimeList;
 static void *do_task(void *arg_ptr);
 int main(int argc, char* argv[]) {
     printf("F1 LINE \n");
-    PrimeList = createLinkedList();
+   // PrimeList = createLinkedList();
     // Command Line Parsing:
     char* n_val[100] ;
     char* m_val[100];
@@ -100,6 +100,7 @@ int main(int argc, char* argv[]) {
     for (int i = 0; i < child_thread_num; i++) {
         t_args[i].interFileName = inter_files[i];/* assign intermediate file name */;
         t_args[i].threadNumber = i;
+        t_args[i].own_list = createLinkedList();
         //t_args[i].primeList = /* create a thread-specific linked list */;
         //t_args[i].mutex = &mutex;
         int ret = pthread_create(&(tids[i]), NULL, do_task, (void*)&t_args[i]);
@@ -123,11 +124,18 @@ int main(int argc, char* argv[]) {
     // Collect and print prime numbers to the output file (OUTFILE).
     FILE* f_write = fopen(*output_file_name, "w+");
     printf("OUTPUT OPEN OLMALI \n");
-    while(PrimeList->head != NULL){
+    /*while(PrimeList->head != NULL){
         fprintf(f_write, "%d\n", GetPrimeNum(PrimeList));
         DeleteNode(PrimeList);
+    }*/
+    for (int m = 0; m<child_thread_num;m++){
+        while((t_args[m].own_list)->head != NULL) {
+            fprintf(f_write, "%d\n", GetPrimeNum(t_args[m].own_list));
+            DeleteNode(t_args[m].own_list);
+        }
+        free(t_args[m].own_list);
     }
-    free(PrimeList);
+    //free(PrimeList);
     fclose(f_write);
     // Remove intermediate files.
     DeleteIntermediateFiles(child_thread_num);
@@ -162,7 +170,7 @@ static void *do_task(void *arg_ptr)
         // pthread_mutex_lock(threadData->mutex);
         int number = atoi(line);
         if (IsPrimeNumber(number)){
-            insert(PrimeList, number);
+            insert(((struct ThreadData *) arg_ptr)->own_list, number);
             printf("DO TASK INSIDEEE \n");
         }
         //pthread_mutex_unlock(threadData->mutex);
