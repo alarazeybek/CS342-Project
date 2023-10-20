@@ -90,7 +90,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
     FILE* f_write = fopen(output_file_name, "w+");
     pid_t  n;
     printf ("\nPROCESSHANDLING");
-    for (int i = 1; i <= p_child_num; ++i) {
+    for (int i = 0; i < p_child_num; ++i) {
         printf ("nnnnn starts\n");
         n = fork();
         if (n < 0) {
@@ -110,10 +110,19 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
 
             //while (fgets(line, sizeof(line), inter_file) != NULL) {
 
-            while ((read = getline(&line, &len, inter_file)) != -1) {
-                printf ("line okunuyorrr\n");
+           // while ((read = getline(&line, &len, inter_file)) != -1) {
 
-                char *line_copy = strdup(line);
+            while ((c = fgetc(file)) != EOF){
+                printf ("line okunuyorrr\n");
+                //char *line_copy = strdup(line);
+
+                char line_copy[100];
+                int i = 0;
+                while(c != '\n' && c != EOF){
+                    line_copy[i] = c;
+                    i++;
+                    c = fgetc(file);
+                }
                 // Convert the line to an integer
                 int number = atoi(line_copy);
                 if (IsPrimeNumber(number)){
