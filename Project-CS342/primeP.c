@@ -71,7 +71,13 @@ int main(int argc, char *argv[]){
     printf ("\nF4");
     ProcessHandling(child_process_num,prime_num_in_message, inter_files, *output_file_name);
     printf ("\nF5");
-    DeleteIntermediateFiles(child_process_num);
+    //DeleteIntermediateFiles(child_process_num);
+    for (int i = 0; i < child_process_num; i++) {
+        // Use remove() to delete the file
+        if (remove(inter_files[i]) != 0) {
+            perror("Error deleting file");
+        }
+    }
     printf ("\nF6");
     free(bufferp);
     for (int i = 0; i < child_process_num; i++) {
