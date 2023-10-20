@@ -22,7 +22,7 @@ bool IsPrimeNumber(const int num){
 }
 
     // Parsing the command line arguments and reading the flag values for the rest of the program.
-    void commandLineParsing(int argc, char *argv[],  char *flag_n[100],  char *flag_m[100], char *flag_i, char *flag_o){
+    void commandLineParsing(int argc, char *argv[],  char *flag_n[100],  char *flag_m[100], char *flag_i[100], char *flag_o[100]){
         int n_val = 5; // Default value of child processes
         int m_val = 3; // Default value of primes per message
         char *in_filename = NULL;
@@ -69,13 +69,14 @@ bool IsPrimeNumber(const int num){
                     return;
             }
         }
-        char string_flag_val[100];
-        snprintf(string_flag_val, sizeof(string_flag_val), "%d", n_val);
-        *flag_n = string_flag_val;
-        snprintf(string_flag_val, sizeof(string_flag_val), "%d", m_val);
-        *flag_m = string_flag_val;
-        flag_i = in_filename;
-        flag_o = out_filename;
+        char string_n_val[100];
+        snprintf(string_n_val, sizeof(string_n_val), "%d", n_val);
+        *flag_n = string_n_val;
+        char string_m_val[100];
+        snprintf(string_m_val, sizeof(string_m_val), "%d", m_val);
+        *flag_m = string_m_val;
+        *flag_i = in_filename;
+        *flag_o = out_filename;
     }
 
 
