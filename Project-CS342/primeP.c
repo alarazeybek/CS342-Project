@@ -48,7 +48,7 @@ int main(int argc, char *argv[]){
     // Opening a Message Queue:
     attr.mq_maxmsg = prime_num_in_message;
     attr.mq_curmsgs = 0;
-    bufferlen = sizeof(struct item)*prime_num_in_message;
+    bufferlen = sizeof(struct item)*prime_num_in_message*child_process_num*sizeof(struct mq_attr);
     mq = mq_open("/messagequeue", O_RDWR | O_CREAT,  0666, NULL);
     if (mq == -1) {
         perror("FLAG:can not open msg queue\n");
