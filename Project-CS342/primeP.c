@@ -38,6 +38,8 @@ int main(int argc, char *argv[]){
                        output_file_name);
     int child_process_num = atoi(n_val);
     int prime_num_in_message = atoi(m_val);
+    printf ("\nN_vall: %d",child_process_num);
+    printf ("\nM_vall: %d",prime_num_in_message);
     // Opening a Message Queue:
     attr.mq_maxmsg = prime_num_in_message;
     attr.mq_curmsgs = 0;
