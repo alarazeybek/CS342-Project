@@ -35,8 +35,8 @@ int main(int argc, char *argv[]){
     char output_file_name[100];
     commandLineParsing(argc,argv,n_val,m_val,input_file_name,
                        output_file_name);
-    int child_process_num = // string to int n_val
-    int prime_num_in_message = // string to int m_val
+    int child_process_num = atoi(n_val);
+    int prime_num_in_message = atoi(m_val);
     // Opening a Message Queue:
     attr.mq_maxmsg = prime_num_in_message;
     attr.mq_curmsgs = 0;
