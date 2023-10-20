@@ -60,20 +60,24 @@ struct ThreadData {
 struct LinkedList* PrimeList;
 static void *do_task(void *arg_ptr);
 int main(int argc, char* argv[]) {
+    printf("F1 LINE \n");
     PrimeList = createLinkedList();
     // Command Line Parsing:
     char n_val[100] ;
     char m_val[100];
     char input_file_name[100];
     char output_file_name[100];
+    printf("F2 LINE \n");
     commandLineParsing(argc,argv,n_val,m_val,input_file_name,
                        output_file_name);
     int child_thread_num = atoi(n_val);
+    printf("F3 LINE \n");
     // int prime_num_in_message = atoi(m_val); BU PART B Kisminda kullanilmiyor.
 
     // Split the input file into N intermediate input files.
     char* inter_files[child_thread_num];
     openIntermediateFiles(input_file_name, inter_files, child_thread_num);
+    printf("F4 LINE \n");
     // Create an array of thread handles and thread data.
     pthread_t tids[child_thread_num];
     struct ThreadData t_args[child_thread_num];
@@ -83,6 +87,7 @@ int main(int argc, char* argv[]) {
     pthread_mutex_t mutex;
     pthread_mutex_init(&mutex, NULL);
 */
+    printf("F5 LINE \n");
     // Create and start worker threads.
     for (int i = 0; i < child_thread_num; i++) {
         t_args[i].interFileName = inter_files[i];/* assign intermediate file name */;
@@ -96,6 +101,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    printf("F6 LINE \n");
     // Wait for all threads to finish.
     for (int i = 0; i < child_thread_num; i++) {
         int ret = pthread_join(tids[i], (void **)&retmsg);
@@ -108,6 +114,7 @@ int main(int argc, char* argv[]) {
 
     // Collect and print prime numbers to the output file (OUTFILE).
     FILE* f_write = fopen(output_file_name, "w+");
+    printf("OUTPUT OPEN OLMALI \n");
     while(PrimeList->head != NULL){
         fprintf(f_write, "%d\n", GetPrimeNum(PrimeList));
         DeleteNode(PrimeList);
@@ -116,7 +123,7 @@ int main(int argc, char* argv[]) {
     fclose(f_write);
     // Remove intermediate files.
     DeleteIntermediateFiles(child_thread_num);
-
+    printf("AT THE END OF MAIN \n");
     //pthread_mutex_destroy(&mutex);
 
     return 0;
@@ -140,12 +147,13 @@ static void *do_task(void *arg_ptr)
         int number = atoi(line);
         if (IsPrimeNumber(number)){
             insert(PrimeList, number);
+            printf("DO TASK INSIDEEE \n");
         }
         //pthread_mutex_unlock(threadData->mutex);
     }
 
     fclose(fp);
-
+    printf("At THe ENDDD OF DOOO \n");
     retreason = (char *) malloc (200);
     strcpy (retreason, "normal termination of thread");
     pthread_exit(retreason); //  tell a reason to thread waiting in join
