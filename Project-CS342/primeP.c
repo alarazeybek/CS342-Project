@@ -46,7 +46,7 @@ int main(int argc, char *argv[]){
     bufferlen = attr.mq_maxmsg + 10;
     mq = mq_open("/messagequeue", O_RDWR | O_CREAT, /*QUEUE_PERMISSIONS*/ 0660, &attr);
     if (mq == -1) {
-        perror("can not open msg queue\n");
+        perror("FLAG:can not open msg queue\n");
         exit(1);
     }
     mq_getattr(mq, &attr);

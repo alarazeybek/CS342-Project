@@ -63,10 +63,10 @@ int main(int argc, char* argv[]) {
     printf("F1 LINE \n");
     PrimeList = createLinkedList();
     // Command Line Parsing:
-    char n_val[100] ;
-    char m_val[100];
-    char input_file_name[100];
-    char output_file_name[100];
+    char* n_val[100] ;
+    char* m_val[100];
+    char* input_file_name[100];
+    char* output_file_name[100];
     printf("F2 LINE \n");
     commandLineParsing(argc,argv,n_val,m_val,input_file_name,
                        output_file_name);
@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
 
     // Split the input file into N intermediate input files.
     char* inter_files[child_thread_num];
-    openIntermediateFiles(input_file_name, inter_files, child_thread_num);
+    openIntermediateFiles(*input_file_name, inter_files, child_thread_num);
     printf("F4 LINE \n");
     // Create an array of thread handles and thread data.
     pthread_t tids[child_thread_num];
@@ -113,7 +113,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Collect and print prime numbers to the output file (OUTFILE).
-    FILE* f_write = fopen(output_file_name, "w+");
+    FILE* f_write = fopen(*output_file_name, "w+");
     printf("OUTPUT OPEN OLMALI \n");
     while(PrimeList->head != NULL){
         fprintf(f_write, "%d\n", GetPrimeNum(PrimeList));
