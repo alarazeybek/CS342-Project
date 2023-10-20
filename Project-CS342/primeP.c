@@ -108,11 +108,11 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
             ssize_t read;
             size_t len = 0;
 
-            //while (fgets(line, sizeof(line), inter_file) != NULL) {
+            while (fgets(line, sizeof(line), inter_file) != NULL) {
 
            // while ((read = getline(&line, &len, inter_file)) != -1) {
 
-            while ((c = fgetc(file)) != EOF){
+           /* while ((c = fgetc(file)) != EOF){
                 printf ("line okunuyorrr\n");
                 //char *line_copy = strdup(line);
 
@@ -122,7 +122,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
                     line_copy[i] = c;
                     i++;
                     c = fgetc(file);
-                }
+                }*/
                 // Convert the line to an integer
                 int number = atoi(line_copy);
                 if (IsPrimeNumber(number)){
