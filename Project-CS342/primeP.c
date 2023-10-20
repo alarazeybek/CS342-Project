@@ -58,6 +58,10 @@ int main(int argc, char *argv[]){
     char* inter_files[child_process_num];
     for (int i = 0; i < child_process_num; i++) {
         inter_files[i] = (char *)malloc(100); // Allocate memory for each element
+        if (inter_files[i] == NULL) {
+            perror("malloc"); // Check for allocation failure
+            exit(1);
+        }
     }
     printf ("\nF3");
 
