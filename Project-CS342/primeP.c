@@ -124,7 +124,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
                     c = fgetc(file);
                 }*/
                 // Convert the line to an integer
-                int number = atoi(line_copy);
+                int number = atoi(line);
                 if (IsPrimeNumber(number)){
                     // Create message
                     itemp = (struct item *) bufferp;
