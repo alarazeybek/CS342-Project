@@ -45,8 +45,6 @@ int main(int argc, char *argv[]){
 
     int child_process_num = atoi(*n_val);
     int prime_num_in_message = atoi(*m_val);
-    printf ("\nN_vall: %d",child_process_num);
-    printf ("\nM_vall: %d",prime_num_in_message);
 
     // Opening a Message Queue:
     attr.mq_maxmsg = prime_num_in_message;
@@ -63,7 +61,6 @@ int main(int argc, char *argv[]){
 
 
     // Parsing the input file into N intermediate input files.
-
     char* inter_files[child_process_num];
     for (int i = 0; i < child_process_num; i++) {
         inter_files[i] = (char *)malloc(100); // Allocate memory for each element
@@ -72,13 +69,11 @@ int main(int argc, char *argv[]){
             exit(1);
         }
     }
-    printf ("\nF3");
 
     openIntermediateFiles(*input_file_name, inter_files, child_process_num);
-    printf ("\nF4");
+
     ProcessHandling(child_process_num,prime_num_in_message, inter_files, *output_file_name);
-    printf ("\nF5");
-    //DeleteIntermediateFiles(child_process_num);
+
     for (int i = 0; i < child_process_num; i++) {
         // Use remove() to delete the file
         if (remove(inter_files[i]) != 0) {
@@ -106,8 +101,6 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
         return ;
     }
     pid_t  n;
-    int MCOUNT = 0;
-    printf("Message Size: %d", message_size);
     for (int a1 = 0; a1 < p_child_num; a1++) {
         n = fork();
         if (n < 0) {
@@ -136,7 +129,6 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
                     // Create message
                     itemp = (struct item *) bufferp;
                     itemp->prime_num = number;
-                    printf ("\nIsPrime Inside:%d",number);
                     int error = mq_send(mq, bufferp, sizeof(struct item), 0);
                     if (error == -1) {
                         perror("mq_send failed\n");
@@ -152,13 +144,10 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
             exit(0);  // child terminates
         }
         else {
-            printf ("\nELSEE");
             // this is parent code
             // mesage queue size çek et eğet m değerinden büyük ise ana output file ına yazdır ve mesajı queue sunu boşalt.
             if (attr.mq_curmsgs >= message_size) {
-                printf ("\nELSEE ICI");
                 while (attr.mq_curmsgs > 0) {
-                    printf ("\nYAZİYORUMMM");
                     int error = mq_receive(mq, bufferp, bufferlen, NULL);
                     if (error == -1) {
                         perror("mq_receive failed\n");

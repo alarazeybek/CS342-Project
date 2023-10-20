@@ -35,7 +35,6 @@ void commandLineParsing(int argc, char *argv[],  char *flag_n[100],  char *flag_
         switch (arg_flag) {
             case 'n':
                 n_val = atoi(optarg);
-                printf("N_val Inside:%d\n",n_val);
                 if (n_val < 1 || n_val > 20) {
                     fprintf(stderr, "Invalid value for -n. It should be in the range [1, 20].\n");
                     // If the input is invalid, reinitialize the default value.
@@ -45,7 +44,6 @@ void commandLineParsing(int argc, char *argv[],  char *flag_n[100],  char *flag_
                 break;
             case 'm':
                 m_val = atoi(optarg);
-                printf("M_val Inside:%d\n",m_val);
                 if (m_val < 1 || m_val > 20) {
                     fprintf(stderr, "Invalid value for -m. It should be in the range [1, 20].\n");
                     // If the input is invalid, reinitialize the default value.
@@ -54,11 +52,9 @@ void commandLineParsing(int argc, char *argv[],  char *flag_n[100],  char *flag_
                 }
                 break;
             case 'i':
-                printf("Optarg Inside:%s\n",optarg);
                 in_filename = optarg;
                 break;
             case 'o':
-                printf("Optarg Inside:%s\n",optarg);
                 out_filename = optarg;
                 break;
             default:
