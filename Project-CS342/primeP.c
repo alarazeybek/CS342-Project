@@ -51,7 +51,7 @@ int main(int argc, char *argv[]){
     attr.mq_maxmsg = prime_num_in_message;
     attr.mq_curmsgs = 0;
     bufferlen = sizeof(struct item)*sizeof(struct mq_attr);
-    mq = mq_open("/messagequeue", O_RDWR | O_CREAT,  0666, &attr);
+    mq = mq_open("/messagequeue", O_RDWR | O_CREAT,  0666, NULL);
     if (mq == -1) {
         perror("FLAG:can not open msg queue\n");
         exit(1);
@@ -98,6 +98,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
         return ;
     }
     pid_t  n;
+    int MCOUNT = 0;
     for (int a1 = 0; a1 < p_child_num; a1++) {
         printf ("nnnnn starts\n");
         n = fork();
@@ -135,6 +136,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
                         perror("mq_send failed\n");
                         exit(1);
                     }
+                    MCOUNT++;
                 }
             }
             printf ("\n2");
@@ -149,9 +151,9 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
             printf ("\nELSEE");
             // this is parent code
             // mesage queue size çek et eğet m değerinden büyük ise ana output file ına yazdır ve mesajı queue sunu boşalt.
-            if (attr.mq_curmsgs >= message_size) {
+            if (MCOUNT >= message_size) {
                 printf ("\nELSEE ICI");
-                while (attr.mq_curmsgs > 0) {
+                while (MCOUNT > 0) {
                     printf ("\nYAZİYORUMMM");
                     int error = mq_receive(mq, bufferp, bufferlen, NULL);
                     if (error == -1) {
@@ -160,6 +162,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
                     }
                     itemp = (struct item *) bufferp;
                     fprintf(f_write, "%d\n", itemp->prime_num);
+                    MCOUNT--;
                 }
             }
         }
@@ -169,7 +172,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
         wait(NULL);
     }
     // Handling the left-overs:
-    if (attr.mq_curmsgs > 0) {
+    while (MCOUNT > 0) {
         int error = mq_receive(mq, bufferp, bufferlen, NULL);
         if (error == -1) {
             perror("mq_receive failed\n");
