@@ -102,7 +102,7 @@ void openIntermediateFiles(char *inputFileName, char* inter_files[], const int c
             perror("File create/open failed");
             continue;
         }
-        inter_files[intermediate_file_no] = inter_file_name;
+        inter_files[intermediate_file_no] = strdup(inter_file_name);
         fclose(f_write);
     }
     // ana input file ını oku ve interleri initialize et:
