@@ -29,8 +29,8 @@ void ProcessHandling(const int p_child_num, const int message_size, char* interm
 
 int main(int argc, char *argv[]){
     // Command Line Parsing:
-    int *child_process_num;
-    int *prime_num_in_message;
+    int *child_process_num = (int*)malloc(sizeof(int);
+    int *prime_num_in_message = (int*)malloc(sizeof(int);
     char input_file_name[100];
     char output_file_name[100];
     commandLineParsing(argc,argv,*child_process_num,*prime_num_in_message,input_file_name,
@@ -54,8 +54,10 @@ int main(int argc, char *argv[]){
     openIntermediateFiles(input_file_name, inter_files, *child_process_num);
     ProcessHandling(*child_process_num,*prime_num_in_message, inter_files, *output_file_name);
     DeleteIntermediateFiles(*child_process_num);
-    free (bufferp);
+    free(bufferp);
     mq_close(mq);
+    free(child_process_num); // Free allocated memory
+    free(prime_num_in_message); // Free allocated memory
     return 0;
 }
 
@@ -95,7 +97,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* interm
             // this is parent code
             // mesage queue size çek et eğet m değerinden büyük ise ana output file ına yazdır ve mesajı queue sunu boşalt.
             if (attr.mq_curmsgs >= message_size) {
-                while (attr.mqcurmsgs > 0) {
+                while (attr.mq_curmsgs > 0) {
                     int error = mq_receive(mq, bufferp, bufferlen, NULL);
                     if (error == -1) {
                         perror("mq_receive failed\n");
