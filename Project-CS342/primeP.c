@@ -62,7 +62,6 @@ int main(int argc, char *argv[]){
             perror("malloc"); // Check for allocation failure
             exit(1);
         }
-        printf ("\naaaaaaaa");
     }
     printf ("\nF3");
 
