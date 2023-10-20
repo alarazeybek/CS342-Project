@@ -57,8 +57,6 @@ int main(int argc, char *argv[]){
     // Parsing the input file into N intermediate input files.
     char* inter_files[child_process_num];
     for (int i = 0; i < child_process_num; i++) {
-
-        printf ("\naaaaaaa");
         inter_files[i] = (char *)malloc(100); // Allocate memory for each element
         if (inter_files[i] == NULL) {
             perror("malloc"); // Check for allocation failure
@@ -91,6 +89,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
 {
     FILE* f_write = fopen(output_file_name, "w+");
     pid_t  n;
+    printf ("\nPROCESSHANDLING");
     for (int i = 0; i < p_child_num; ++i) {
         n = fork();
         if (n < 0) {
@@ -99,6 +98,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
         }
         // If n is 0, it means that we are running the child process.
         if (n == 0) {
+            printf ("p starts\n");
             char* inter_file_name = inter_files[i];
             FILE *inter_file = fopen(inter_file_name, "r");
             // Reading the intermediate file:
@@ -110,6 +110,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
                     // Create message
                     itemp = (struct item *) bufferp;
                     itemp->prime_num = number;
+                    printf ("\nIsPrime Inside:%d",number);
                     int error = mq_send(mq, bufferp, sizeof(struct item), 0);
                     if (error == -1) {
                         perror("mq_send failed\n");
@@ -117,6 +118,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
                     }
                 }
             }
+            printf ("end process\n");
             exit(0);  // child terminates
         }
         else {
