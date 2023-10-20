@@ -29,10 +29,12 @@ void ProcessHandling(const int p_child_num, const int message_size, char* interm
 
 int main(int argc, char *argv[]){
     // Command Line Parsing:
-    int *child_process_num, *prime_num_in_message;
-    char *input_file_name, *output_file_num;
-    commandLineParsing(argc,argv,child_process_num,prime_num_in_message,input_file_name,
-                       output_file_num);
+    int *child_process_num;
+    int *prime_num_in_message;
+    char input_file_name[100];
+    char output_file_name[100];
+    commandLineParsing(argc,argv,*child_process_num,*prime_num_in_message,input_file_name,
+                       output_file_name);
     // Opening a Message Queue:
     attr.mq_maxmsg = *prime_num_in_message;
     attr.mq_curmsgs = 0;
@@ -49,9 +51,9 @@ int main(int argc, char *argv[]){
 
 
     int inter_files_index;
-    openIntermediateFiles();
-    ProcessHandling(*child_process_num,*prime_num_in_message, inter_files, *output_file_num);
-    DeleteIntermediateFiles();
+    openIntermediateFiles(input_file_name, inter_files, *child_process_num);
+    ProcessHandling(*child_process_num,*prime_num_in_message, inter_files, *output_file_name);
+    DeleteIntermediateFiles(*child_process_num);
     free (bufferp);
     mq_close(mq);
     return 0;
@@ -109,8 +111,8 @@ void ProcessHandling(const int p_child_num, const int message_size, char* interm
     for (int i = 0; i < p_child_num; i++) {
         wait(NULL);
     }
-    // Handling the left overs:
-    if (mq_attr.mq_curmsgs > 0) {
+    // Handling the left-overs:
+    if (attr.mq_curmsgs > 0) {
         int error = mq_receive(mq, bufferp, bufferlen, NULL);
         if (error == -1) {
             perror("mq_receive failed\n");

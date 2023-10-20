@@ -67,7 +67,7 @@ void commandLineParsing(int argc, char *argv[], int *flag_n, int *flag_m, char *
 }
 
 
-void DeleteIntermediateFiles(FILE* inter_files, const int child_process_num) {
+void DeleteIntermediateFiles(const int child_process_num) {
     for (int i = 1; i <= child_process_num; i++) {
         char filename[25];
         snprintf(filename, sizeof(filename), "%d.txt", i);
