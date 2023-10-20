@@ -133,11 +133,12 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
             //while (fscanf(inter_file, "%d", &number) == 1) {
                // while ((read = getline(&line, &len, inter_file)) != -1) {
 
+            printf ("\nNeredeyim");
             char line[100]; // Assuming a maximum of 100 characters per line
-            int line_index = 1;
             while (fgets(line, sizeof(line), inter_file) != NULL) {
                 // Convert the line to an integer
                 int number = atoi(line);
+                printf ("\nIceride Miyim");
                 if (IsPrimeNumber(number)){
                     // Create message
                     itemp = (struct item *) bufferp;
