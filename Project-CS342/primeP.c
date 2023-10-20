@@ -103,12 +103,17 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
             char* inter_file_name = inter_files[i];
             FILE *inter_file = fopen(inter_file_name, "r");
             // Reading the intermediate file:
-            char line[100]; // Assuming a maximum of 100 characters per line
+            char* line = NULL; // Assuming a maximum of 100 characters per line
+            ssize_t read;
+            size_t len = 0;
             printf ("line oku\n");
-            while (fgets(line, sizeof(line), inter_file) != NULL) {
+            //while (fgets(line, sizeof(line), inter_file) != NULL) {
+            while ((read = getline(&line, &len, inter_file)) != -1) {
                 printf ("line okunuyorrr\n");
+
+                char *line_copy = strdup(line);
                 // Convert the line to an integer
-                int number = atoi(line);
+                int number = atoi(line_copy);
                 if (IsPrimeNumber(number)){
                     // Create message
                     itemp = (struct item *) bufferp;
