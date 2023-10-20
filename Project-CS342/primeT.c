@@ -112,7 +112,7 @@ int main(int argc, char* argv[]) {
     printf("F6 LINE \n");
     // Wait for all threads to finish.
     for (int i = 0; i < child_thread_num; i++) {
-        int ret = pthread_join(tids[i], (void **)&retmsg);
+        int ret = pthread_join(tids[i], (void **)&retmsg); //
         if (ret != 0) {
             printf("thread join failed \n");
             exit(1);
@@ -151,7 +151,7 @@ static void *do_task(void *arg_ptr)
 {
     char *retreason;
 
-    FILE *fp = fopen(((struct ThreadData *) arg_ptr)->interFileName, "w");
+    FILE *fp = fopen(((struct ThreadData *) arg_ptr)->interFileName, "r");
     if (fp == NULL) {
         perror("do_task:");
         exit(1);
@@ -169,8 +169,8 @@ static void *do_task(void *arg_ptr)
     }
 
     fclose(fp);
-    printf("At THe ENDDD OF DOOO \n");
-    retreason = (char *) malloc (200);
+
+    retreason = (char *) malloc (200); //
     strcpy (retreason, "normal termination of thread");
     pthread_exit(retreason); //  tell a reason to thread waiting in join
     // we could simple exit as below, if we don't want to pass a reason
