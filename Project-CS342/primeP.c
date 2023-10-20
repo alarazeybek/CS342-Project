@@ -53,9 +53,12 @@ int main(int argc, char *argv[]){
     mq_getattr(mq, &attr);
     printf ("\nF2");
     bufferp = (char *) malloc(bufferlen);
-    printf ("\nF3");
+    printf ("\nF2.2222");
     // Parsing the input file into N intermediate input files.
     char* inter_files[child_process_num];
+    for (int i = 0; i < child_process_num; i++) {
+        inter_files[i] = (char *)malloc(100); // Allocate memory for each element
+    }
     printf ("\nF3");
 
     openIntermediateFiles(*input_file_name, inter_files, child_process_num);
@@ -65,6 +68,9 @@ int main(int argc, char *argv[]){
     DeleteIntermediateFiles(child_process_num);
     printf ("\nF6");
     free(bufferp);
+    for (int i = 0; i < child_process_num; i++) {
+        free(inter_files[i]); // Free memory for each element
+    }
     mq_close(mq);
     return 0;
 }
