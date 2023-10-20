@@ -48,7 +48,7 @@ int main(int argc, char *argv[]){
     // Opening a Message Queue:
     attr.mq_maxmsg = prime_num_in_message;
     attr.mq_curmsgs = 0;
-    bufferlen = attr.mq_maxmsg + 10;
+    bufferlen = sizeof(struct item);;
     mq = mq_open("/messagequeue", O_RDWR | O_CREAT,  0666, NULL);
     if (mq == -1) {
         perror("FLAG:can not open msg queue\n");
@@ -136,17 +136,6 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
             char line[100]; // Assuming a maximum of 100 characters per line
             int line_index = 1;
             while (fgets(line, sizeof(line), inter_file) != NULL) {
-                /* while ((c = fgetc(file)) != EOF){
-                     printf ("line okunuyorrr\n");
-                     //char *line_copy = strdup(line);
-
-                     char line_copy[100];
-                     int i = 0;
-                     while(c != '\n' && c != EOF){
-                         line_copy[i] = c;
-                         i++;
-                         c = fgetc(file);
-                     }*/
                 // Convert the line to an integer
                 int number = atoi(line);
                 if (IsPrimeNumber(number)){
