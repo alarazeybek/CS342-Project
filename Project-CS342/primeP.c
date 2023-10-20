@@ -88,7 +88,6 @@ int main(int argc, char *argv[]){
 
     clock_t end_time = clock();
     double execution_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-
     printf("Execution time: %f seconds\n", execution_time);
     return 0;
 }

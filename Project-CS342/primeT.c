@@ -8,6 +8,7 @@
 #include <pthread.h>
 #include <stdbool.h>
 #include <sys/wait.h>
+#include <time.h>
 // Define the structure for a single node in the linked list.
 struct Node {
     int prime_num;
@@ -56,6 +57,7 @@ struct ThreadData {
 };
 static void *do_task(void *arg_ptr);
 int main(int argc, char* argv[]) {
+    clock_t start_time = clock();
     // Command Line Parsing:
     char* n_val[100] ;
     char* m_val[100];
@@ -121,6 +123,10 @@ int main(int argc, char* argv[]) {
             perror("Error deleting file");
         }
     }
+
+    clock_t end_time = clock();
+    double execution_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+    printf("Execution time: %f seconds\n", execution_time);
     return 0;
 }
 
