@@ -62,6 +62,7 @@ int main(int argc, char *argv[]){
             perror("malloc"); // Check for allocation failure
             exit(1);
         }
+        printf ("\naaaaaaaa");
     }
     printf ("\nF3");
 
@@ -70,7 +71,7 @@ int main(int argc, char *argv[]){
     ProcessHandling(child_process_num,prime_num_in_message, inter_files, *output_file_name);
     printf ("\nF5");
     //DeleteIntermediateFiles(child_process_num);
-    for (int i = 1; i <= child_process_num; i++) {
+    for (int i = 0; i < child_process_num; i++) {
         // Use remove() to delete the file
         if (remove(inter_files[i]) != 0) {
             perror("Error deleting file");
@@ -78,7 +79,7 @@ int main(int argc, char *argv[]){
     }
     printf ("\nF6");
     free(bufferp);
-    for (int i = 1; i <= child_process_num; i++) {
+    for (int i = 0; i < child_process_num; i++) {
         free(inter_files[i]); // Free memory for each element
     }
     mq_close(mq);
@@ -100,6 +101,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
         // If n is 0, it means that we are running the child process.
         if (n == 0) {
             printf ("p starts\n");
+
             char* inter_file_name = inter_files[i];
             FILE *inter_file = fopen(inter_file_name, "r");
             // Reading the intermediate file:
@@ -107,6 +109,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
             ssize_t read;
             size_t len = 0;
             printf ("line oku\n");
+
             //while (fgets(line, sizeof(line), inter_file) != NULL) {
             while ((read = getline(&line, &len, inter_file)) != -1) {
                 printf ("line okunuyorrr\n");
