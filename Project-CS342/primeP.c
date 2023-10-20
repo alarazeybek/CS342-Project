@@ -32,31 +32,38 @@ void ProcessHandling(const int p_child_num, const int message_size, char* interm
 
 int main(int argc, char *argv[]){
     // Command Line Parsing:
+
     char* n_val[100] ;
     char* m_val[100];
     char* input_file_name[100];
     char* output_file_name[100];
     commandLineParsing(argc,argv,n_val,m_val,input_file_name,
                        output_file_name);
+
     int child_process_num = atoi(*n_val);
     int prime_num_in_message = atoi(*m_val);
     printf ("\nN_vall: %d",child_process_num);
     printf ("\nM_vall: %d",prime_num_in_message);
+
     // Opening a Message Queue:
     attr.mq_maxmsg = prime_num_in_message;
     attr.mq_curmsgs = 0;
     bufferlen = attr.mq_maxmsg + 10;
-    mq = mq_open("/messagequeue", O_RDWR | O_CREAT, /*QUEUE_PERMISSIONS*/ 0666, NULL);
+    mq = mq_open("/messagequeue", O_RDWR | O_CREAT, /QUEUE_PERMISSIONS/ 0666, NULL);
     if (mq == -1) {
         perror("FLAG:can not open msg queue\n");
         exit(1);
     }
+
     printf ("\nF1");
     mq_getattr(mq, &attr);
     printf ("\nF2");
     bufferp = (char *) malloc(bufferlen);
     printf ("\nF2.2222");
+
+
     // Parsing the input file into N intermediate input files.
+
     char* inter_files[child_process_num];
     for (int i = 0; i < child_process_num; i++) {
         inter_files[i] = (char *)malloc(100); // Allocate memory for each element
@@ -72,13 +79,7 @@ int main(int argc, char *argv[]){
     ProcessHandling(child_process_num,prime_num_in_message, inter_files, *output_file_name);
     printf ("\nF5");
     //DeleteIntermediateFiles(child_process_num);
-    for (int i = 0; i < child_process_num; i++) {
-        // Use remove() to delete the file
-        if (remove(inter_files[i]) != 0) {
-            perror("Error deleting file");
-        }
-    }
-    printf ("\nF6");
+
     free(bufferp);
     for (int i = 0; i < child_process_num; i++) {
         free(inter_files[i]); // Free memory for each element
@@ -127,24 +128,25 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
             }
             ssize_t read;
             size_t len = 0;
+            int number = 0;
 
-            while (fgets(line, sizeof(line), inter_file) != NULL) {
+            while (fscanf(inter_file, "%d", &number) == 1) {
 
-           // while ((read = getline(&line, &len, inter_file)) != -1) {
+                // while ((read = getline(&line, &len, inter_file)) != -1) {
 
-           /* while ((c = fgetc(file)) != EOF){
-                printf ("line okunuyorrr\n");
-                //char *line_copy = strdup(line);
+                /* while ((c = fgetc(file)) != EOF){
+                     printf ("line okunuyorrr\n");
+                     //char *line_copy = strdup(line);
 
-                char line_copy[100];
-                int i = 0;
-                while(c != '\n' && c != EOF){
-                    line_copy[i] = c;
-                    i++;
-                    c = fgetc(file);
-                }*/
+                     char line_copy[100];
+                     int i = 0;
+                     while(c != '\n' && c != EOF){
+                         line_copy[i] = c;
+                         i++;
+                         c = fgetc(file);
+                     }*/
                 // Convert the line to an integer
-                int number = atoi(line);
+                //int number = atoi(line);
                 if (IsPrimeNumber(number)){
                     // Create message
                     itemp = (struct item *) bufferp;
