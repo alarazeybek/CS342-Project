@@ -48,9 +48,8 @@ int main(int argc, char *argv[]){
     // Opening a Message Queue:
     attr.mq_maxmsg = prime_num_in_message;
     attr.mq_curmsgs = 0;
-    //bufferlen = attr.mq_maxmsg + 10;
-    bufferlen = sizeof(struct item) * sizeof(struct mq_attr) ;
-    mq = mq_open("/messagequeue", O_RDWR | O_CREAT, /*QUEUE_PERMISSIONS*/ 0666, NULL);
+    bufferlen = attr.mq_maxmsg + 10;
+    mq = mq_open("/messagequeue", O_RDWR | O_CREAT,  0666, NULL);
     if (mq == -1) {
         perror("FLAG:can not open msg queue\n");
         exit(1);
@@ -89,7 +88,7 @@ int main(int argc, char *argv[]){
     return 0;
 }
 
-int ProcessHandling(const int p_child_num, const int message_size, char* inter_files[], const char* output_file_name)
+void ProcessHandling(const int p_child_num, const int message_size, char* inter_files[], const char* output_file_name)
 {
     FILE* f_write = fopen(output_file_name, "w+");
     if (f_write == NULL) {
@@ -200,5 +199,4 @@ int ProcessHandling(const int p_child_num, const int message_size, char* inter_f
     }
     // Close output file.
     fclose(f_write);
-    return 0;
 }
