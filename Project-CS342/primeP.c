@@ -91,6 +91,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
     pid_t  n;
     printf ("\nPROCESSHANDLING");
     for (int i = 0; i < p_child_num; ++i) {
+        printf ("nnnnn starts\n");
         n = fork();
         if (n < 0) {
             printf ("fork() failed\n");
