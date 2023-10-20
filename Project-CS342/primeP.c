@@ -80,7 +80,7 @@ int main(int argc, char *argv[]){
     }
     printf ("\nF6");
     free(bufferp);
-    for (int i = 0; i < child_process_num; i++) {
+    for (int i = 1; i <= child_process_num; i++) {
         free(inter_files[i]); // Free memory for each element
     }
     mq_close(mq);
