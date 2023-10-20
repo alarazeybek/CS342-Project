@@ -104,7 +104,9 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
             FILE *inter_file = fopen(inter_file_name, "r");
             // Reading the intermediate file:
             char line[100]; // Assuming a maximum of 100 characters per line
+            printf ("line oku\n");
             while (fgets(line, sizeof(line), inter_file) != NULL) {
+                printf ("line okunuyorrr\n");
                 // Convert the line to an integer
                 int number = atoi(line);
                 if (IsPrimeNumber(number)){
