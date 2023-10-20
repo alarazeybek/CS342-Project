@@ -82,7 +82,12 @@ int main(int argc, char *argv[]){
     ProcessHandling(child_process_num,prime_num_in_message, inter_files, *output_file_name);
     printf ("\nF5");
     //DeleteIntermediateFiles(child_process_num);
-
+    for (int i = 0; i < child_process_num; i++) {
+        // Use remove() to delete the file
+        if (remove(inter_files[i]) != 0) {
+            perror("Error deleting file");
+        }
+    }
     free(bufferp);
     for (int i = 0; i < child_process_num; i++) {
         free(inter_files[i]); // Free memory for each element
@@ -166,6 +171,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
                     fprintf(f_write, "%d\n", itemp->prime_num);
                     attr.mq_curmsgs--;
                 }
+
             }
         }
     }

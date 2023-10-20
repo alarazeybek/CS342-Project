@@ -76,6 +76,13 @@ int main(int argc, char* argv[]) {
 
     // Split the input file into N intermediate input files.
     char* inter_files[child_thread_num];
+    for (int i = 0; i < child_process_num; i++) {
+        inter_files[i] = (char *)malloc(100); // Allocate memory for each element
+        if (inter_files[i] == NULL) {
+            perror("malloc"); // Check for allocation failure
+            exit(1);
+        }
+    }
     openIntermediateFiles(*input_file_name, inter_files, child_thread_num);
     printf("F4 LINE \n");
     // Create an array of thread handles and thread data.
@@ -126,6 +133,14 @@ int main(int argc, char* argv[]) {
     printf("AT THE END OF MAIN \n");
     //pthread_mutex_destroy(&mutex);
 
+    /*
+    for (int i = 0; i < child_process_num; i++) {
+        // Use remove() to delete the file
+        if (remove(inter_files[i]) != 0) {
+            perror("Error deleting file");
+        }
+    }
+     */
     return 0;
 }
 
