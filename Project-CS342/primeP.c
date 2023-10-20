@@ -33,6 +33,7 @@ struct mq_attr attr; // message_attributes
 void ProcessHandling(const int p_child_num, const int message_size, char* intermediate_files[], const char* output_file_name );
 
 int main(int argc, char *argv[]){
+    clock_t start_time = clock();
     // Command Line Parsing:
 
     char* n_val[100] ;
@@ -50,7 +51,7 @@ int main(int argc, char *argv[]){
     // Opening a Message Queue:
     attr.mq_maxmsg = prime_num_in_message;
     attr.mq_curmsgs = 0;
-    bufferlen = sizeof(struct item)*sizeof(struct mq_attr);
+    bufferlen = sizeof(struct item)*sizeof(struct mq_attr)*prime_num_in_message*child_process_num;
     mq = mq_open("/messagequeue", O_RDWR | O_CREAT,  0666, &attr);
     if (mq == -1) {
         perror("FLAG:can not open msg queue\n");
@@ -87,6 +88,11 @@ int main(int argc, char *argv[]){
         free(inter_files[i]); // Free memory for each element
     }
     mq_close(mq);
+
+    clock_t end_time = clock();
+    double execution_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
+
+    printf("Execution time: %f seconds\n", execution_time);
     return 0;
 }
 
