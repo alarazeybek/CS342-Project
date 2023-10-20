@@ -51,7 +51,7 @@ int main(int argc, char *argv[]){
     attr.mq_maxmsg = prime_num_in_message;
     attr.mq_curmsgs = 0;
     bufferlen = sizeof(struct item)*sizeof(struct mq_attr);
-    mq = mq_open("/messagequeue", O_RDWR | O_CREAT,  0666, NULL);
+    mq = mq_open("/messagequeue", O_RDWR | O_CREAT,  0666, &attr);
     if (mq == -1) {
         perror("FLAG:can not open msg queue\n");
         exit(1);
@@ -134,7 +134,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
                         perror("mq_send failed\n");
                         exit(1);
                     }
-                    MCOUNT++;
+                    attr.mq_curmsgs++;
                 }
             }
             if (ferror(inter_file)) {
@@ -147,9 +147,9 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
             printf ("\nELSEE");
             // this is parent code
             // mesage queue size çek et eğet m değerinden büyük ise ana output file ına yazdır ve mesajı queue sunu boşalt.
-            if (MCOUNT >= message_size) {
+            if (attr.mq_curmsgs >= message_size) {
                 printf ("\nELSEE ICI");
-                while (MCOUNT > 0) {
+                while (attr.mq_curmsgs > 0) {
                     printf ("\nYAZİYORUMMM");
                     int error = mq_receive(mq, bufferp, bufferlen, NULL);
                     if (error == -1) {
@@ -158,7 +158,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
                     }
                     itemp = (struct item *) bufferp;
                     fprintf(f_write, "%d\n", itemp->prime_num);
-                    MCOUNT--;
+                    attr.mq_curmsgs--;
                 }
             }
         }
@@ -168,7 +168,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
         wait(NULL);
     }
     // Handling the left-overs:
-    while (MCOUNT > 0) {
+    while (attr.mq_curmsgs > 0) {
         int error = mq_receive(mq, bufferp, bufferlen, NULL);
         if (error == -1) {
             perror("mq_receive failed\n");
@@ -176,7 +176,7 @@ void ProcessHandling(const int p_child_num, const int message_size, char* inter_
         }
         itemp = (struct item *) bufferp;
         fprintf(f_write, "%d\n", itemp->prime_num);
-        MCOUNT--;
+        attr.mq_curmsgs--;
     }
     // Close output file.
     fclose(f_write);
