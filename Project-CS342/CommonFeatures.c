@@ -89,7 +89,7 @@ void DeleteIntermediateFiles(const int child_process_num) {
 void openIntermediateFiles(char *inputFileName, char inter_files[], const int child_process_num){
     FILE *f_input;
     int main_input_file_index = 0;
-    f_input = fopen(inputFileName, "r");
+    f_input = fopen(*inputFileName, "r");
     if (f_input == NULL) {
         exit(EXIT_FAILURE);
     }
@@ -115,7 +115,7 @@ void openIntermediateFiles(char *inputFileName, char inter_files[], const int ch
         if (number != 0 || line[0] == '0') { // TODO o inputunu dene
             int inter_file_array_index = (line_index -1) % child_process_num + 1;
             char* inter_file_name = inter_files[inter_file_array_index];
-            FILE* inter_file = fopen(inter_file_name, "w");
+            FILE* inter_file = fopen(*inter_file_name, "w");
             fprintf(inter_file, "%d\n", number);
             fclose(inter_file);
         }
