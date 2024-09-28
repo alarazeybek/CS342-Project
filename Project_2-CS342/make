@@ -1,0 +1,14 @@
+CC=gcc
+CFLAGS=
+
+all: serverk clientk
+
+serverk: serverk.c
+	$(CC) $(CFLAGS) -o serverk serverk.c
+
+clientk: clientk.c
+	$(CC) $(CFLAGS) -o clientk clientk.c
+
+clean:
+	rm -f serverk clientk
+
